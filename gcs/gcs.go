@@ -109,12 +109,11 @@ func Upload(bucket string, filename string) error {
 	filename = path.Base(filename)
 	ext := path.Ext(filename)
 	objectName := filename[0:len(filename)-len(ext)] + ".gzip"
-	fmt.Printf("GCS: Object name %s\n", objectName)
+	fmt.Printf("GCS: Uploading object %s\n", objectName)
 
 	wc := singleton.bucket.Object(objectName).NewWriter(singleton.ctx)
 	wc.ContentType = "text/plain"
 	wc.ContentEncoding = "gzip"
-	fmt.Println("GCS: Successfully created gcs writer")
 
 	zWriter := gzip.NewWriter(wc)
 	nBytes, err := zWriter.Write(data)
